@@ -6,26 +6,52 @@
 }
 
 .sidebar {
-  width: 210px;
+  width: 240px;
   flex-shrink: 0;
   background: #0a0a0a;
   border-right: 1px solid #1e1e1e;
   display: flex;
   flex-direction: column;
-  padding: 28px 16px;
-  gap: 28px;
+  padding: 20px 12px;
+  gap: 20px;
   position: sticky;
   top: 0;
   height: 100vh;
   overflow-y: auto;
+  transition: width 0.3s;
+}
+
+/* Landscape mode: reduce width */
+@media (orientation: landscape) and (max-height: 600px) {
+  .sidebar {
+    width: 80px;
+    padding: 12px 8px;
+    gap: 12px;
+  }
 }
 
 .sidebar-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-bottom: 28px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #1e1e1e;
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .sidebar-brand {
+    padding-bottom: 12px;
+  }
+
+  .app-title,
+  .app-subtitle {
+    display: none;
+  }
+
+  .pokeball-icon {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .pokeball-icon {
@@ -62,33 +88,73 @@
 .navbar {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
 }
 
 .nav-tab {
-  padding: 9px 14px;
+  padding: 12px 14px;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  color: #555;
+  border: none;
+  border-radius: 12px;
+  color: #888;
   cursor: pointer;
   font-size: 0.875rem;
   font-weight: 500;
   text-align: left;
   width: 100%;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.nav-label {
+  flex: 1;
+  transition: color 0.2s;
 }
 
 .nav-tab.active {
-  background: #fff;
-  color: #000;
+  background: #ff6b35;
+  color: #fff;
   font-weight: 700;
-  border-color: #fff;
+}
+
+.nav-tab.active .nav-icon {
+  color: #fff;
 }
 
 .nav-tab:hover:not(.active) {
-  color: #ccc;
-  border-color: #2a2a2a;
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.nav-tab:hover:not(.active) .nav-icon {
+  color: #ff6b35;
+}
+
+/* Landscape: Solo iconos */
+@media (orientation: landscape) and (max-height: 600px) {
+  .nav-tab {
+    padding: 12px;
+    justify-content: center;
+  }
+
+  .nav-label {
+    display: none;
+  }
+
+  .nav-icon {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 /* ── Search bar ── */
