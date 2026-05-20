@@ -9,7 +9,7 @@ import './App.css';
 
 function App() {
   const [currentView, setCurrentView] = useState('search');
-  const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const [sidebarExpanded, setSidebarExpanded] = useState(() => window.innerWidth >= 768);
 
   // ── Search state ──
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,6 +30,15 @@ function App() {
       return {};
     }
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSidebarExpanded(window.innerWidth >= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=2000')

@@ -11,6 +11,7 @@
   border-right: 1px solid #1e1e1e;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   position: sticky;
   top: 0;
   height: 100vh;
@@ -22,12 +23,14 @@
   width: 240px;
   padding: 20px 12px;
   gap: 20px;
+  align-items: stretch;
 }
 
 .sidebar.collapsed {
   width: 80px;
   padding: 12px 8px;
   gap: 12px;
+  align-items: center;
 }
 
 .sidebar-toggle {
@@ -44,6 +47,11 @@
   transition: all 0.2s;
   flex-shrink: 0;
   margin-bottom: 8px;
+  align-self: center;
+}
+
+.sidebar.expanded .sidebar-toggle {
+  align-self: flex-start;
 }
 
 .sidebar-toggle:hover {
@@ -71,12 +79,18 @@
   padding-bottom: 20px;
   border-bottom: 1px solid #1e1e1e;
   transition: padding 0.3s ease, border-bottom 0.3s ease;
+  justify-content: flex-start;
+}
+
+.sidebar.expanded .sidebar-brand {
+  justify-content: flex-start;
 }
 
 .sidebar.collapsed .sidebar-brand {
   padding-bottom: 12px;
   border-bottom: none;
   justify-content: center;
+  flex-direction: column;
 }
 
 .sidebar.collapsed .app-title,
@@ -147,6 +161,11 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: stretch;
+}
+
+.sidebar.collapsed .navbar {
+  align-items: center;
 }
 
 .nav-tab {
@@ -165,6 +184,13 @@
   align-items: center;
   gap: 12px;
   position: relative;
+  justify-content: flex-start;
+}
+
+.sidebar.collapsed .nav-tab {
+  width: auto;
+  padding: 12px;
+  justify-content: center;
 }
 
 .nav-icon {
@@ -200,11 +226,6 @@
 
 .nav-tab:hover:not(.active) .nav-icon {
   color: #ff6b35;
-}
-
-.sidebar.collapsed .nav-tab {
-  padding: 12px;
-  justify-content: center;
 }
 
 /* Landscape: Solo iconos */
