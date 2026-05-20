@@ -6,27 +6,61 @@
 }
 
 .sidebar {
-  width: 240px;
   flex-shrink: 0;
   background: #0a0a0a;
   border-right: 1px solid #1e1e1e;
   display: flex;
   flex-direction: column;
-  padding: 20px 12px;
-  gap: 20px;
   position: sticky;
   top: 0;
   height: 100vh;
   overflow-y: auto;
-  transition: width 0.3s;
+  transition: width 0.3s ease;
+}
+
+.sidebar.expanded {
+  width: 240px;
+  padding: 20px 12px;
+  gap: 20px;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+  padding: 12px 8px;
+  gap: 12px;
+}
+
+.sidebar-toggle {
+  width: 40px;
+  height: 40px;
+  background: #1a1a1a;
+  border: 1px solid #222;
+  border-radius: 8px;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  margin-bottom: 8px;
+}
+
+.sidebar-toggle:hover {
+  background: #222;
+  border-color: #333;
+  color: #fff;
+}
+
+.sidebar-toggle svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* Landscape mode: reduce width */
 @media (orientation: landscape) and (max-height: 500px) {
-  .sidebar {
+  .sidebar.expanded {
     width: 80px;
-    padding: 12px 8px;
-    gap: 12px;
   }
 }
 
@@ -36,19 +70,43 @@
   gap: 12px;
   padding-bottom: 20px;
   border-bottom: 1px solid #1e1e1e;
+  transition: padding 0.3s ease, border-bottom 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-brand {
+  padding-bottom: 12px;
+  border-bottom: none;
+  justify-content: center;
+}
+
+.sidebar.collapsed .app-title,
+.sidebar.collapsed .app-subtitle {
+  display: none;
+}
+
+.pokeball-icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.sidebar.collapsed .pokeball-icon {
+  width: 40px;
+  height: 40px;
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
-  .sidebar-brand {
+  .sidebar.expanded .sidebar-brand {
     padding-bottom: 12px;
   }
 
-  .app-title,
-  .app-subtitle {
+  .sidebar.expanded .app-title,
+  .sidebar.expanded .app-subtitle {
     display: none;
   }
 
-  .pokeball-icon {
+  .sidebar.expanded .pokeball-icon {
     width: 40px;
     height: 40px;
   }
@@ -118,7 +176,11 @@
 
 .nav-label {
   flex: 1;
-  transition: color 0.2s;
+  transition: color 0.2s, opacity 0.3s;
+}
+
+.sidebar.collapsed .nav-label {
+  display: none;
 }
 
 .nav-tab.active {
@@ -140,18 +202,23 @@
   color: #ff6b35;
 }
 
+.sidebar.collapsed .nav-tab {
+  padding: 12px;
+  justify-content: center;
+}
+
 /* Landscape: Solo iconos */
 @media (orientation: landscape) and (max-height: 500px) {
-  .nav-tab {
+  .sidebar.expanded .nav-tab {
     padding: 12px;
     justify-content: center;
   }
 
-  .nav-label {
+  .sidebar.expanded .nav-label {
     display: none;
   }
 
-  .nav-icon {
+  .sidebar.expanded .nav-icon {
     width: 28px;
     height: 28px;
   }

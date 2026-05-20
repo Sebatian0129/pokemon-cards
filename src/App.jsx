@@ -9,6 +9,7 @@ import './App.css';
 
 function App() {
   const [currentView, setCurrentView] = useState('search');
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
   // ── Search state ──
   const [searchTerm, setSearchTerm] = useState('');
@@ -113,7 +114,19 @@ function App() {
 
   return (
     <div className="app">
-      <aside className="sidebar">
+      <aside className={`sidebar ${sidebarExpanded ? 'expanded' : 'collapsed'}`}>
+        <button
+          className="sidebar-toggle"
+          onClick={() => setSidebarExpanded(!sidebarExpanded)}
+          title={sidebarExpanded ? 'Contraer menú' : 'Expandir menú'}
+          aria-label="Toggle sidebar"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
         <div className="sidebar-brand">
           <svg className="pokeball-icon" viewBox="0 0 60 60" aria-hidden="true">
             <circle cx="30" cy="30" r="27" fill="#1a1a1a"/>
