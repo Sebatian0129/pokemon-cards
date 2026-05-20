@@ -22,7 +22,7 @@
 }
 
 /* Landscape mode: reduce width */
-@media (orientation: landscape) and (max-height: 600px) {
+@media (orientation: landscape) and (max-width: 900px) {
   .sidebar {
     width: 80px;
     padding: 12px 8px;
@@ -38,7 +38,7 @@
   border-bottom: 1px solid #1e1e1e;
 }
 
-@media (orientation: landscape) and (max-height: 600px) {
+@media (orientation: landscape) and (max-width: 900px) {
   .sidebar-brand {
     padding-bottom: 12px;
   }
@@ -141,7 +141,7 @@
 }
 
 /* Landscape: Solo iconos */
-@media (orientation: landscape) and (max-height: 600px) {
+@media (orientation: landscape) and (max-width: 900px) {
   .nav-tab {
     padding: 12px;
     justify-content: center;
