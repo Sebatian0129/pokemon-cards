@@ -304,6 +304,14 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
   const [fromSpread, setFromSpread] = useState(spread);
   const toSpreadRef = useRef(spread);
   const [zoomedCard, setZoomedCard] = useState(null);
+  const [isPortrait, setIsPortrait] = useState(() => window.matchMedia('(orientation: portrait)').matches);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(orientation: portrait)');
+    const handleOrientationChange = (e) => setIsPortrait(e.matches);
+    mediaQuery.addEventListener('change', handleOrientationChange);
+    return () => mediaQuery.removeEventListener('change', handleOrientationChange);
+  }, []);
 
   useEffect(() => {
     setLoading(true);

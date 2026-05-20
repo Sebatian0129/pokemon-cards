@@ -1496,3 +1496,10 @@
     justify-content: center;
   }
 }
+
+/* ── Portrait Mode ── */
+@media (orientation: portrait) {
+  .book-page-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
