@@ -5,11 +5,14 @@ import SearchBar from './components/SearchBar';
 import CardGrid from './components/CardGrid';
 import CardModal from './components/CardModal';
 import BinderView from './components/binder/BinderView';
+import ShareCodeModal from './components/ShareCodeModal';
+import { getShareCode, saveOwnedCardsToFirebase, listenToOwnedCards } from './firebase';
 import './App.css';
 
 function App() {
   const [currentView, setCurrentView] = useState('search');
   const [sidebarExpanded, setSidebarExpanded] = useState(() => window.innerWidth >= 768);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   // ── Search state ──
   const [searchTerm, setSearchTerm] = useState('');
@@ -45,6 +48,32 @@ function App() {
       .then((r) => r.json())
       .then((data) => setPokemonNames(data.results.map((p) => capitalize(p.name))))
       .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    let unsubscribe;
+    let lastLocalUpdate = 0;
+
+    async function setupFirebaseSync() {
+      try {
+        const shareCode = await getShareCode();
+        if (shareCode) {
+          unsubscribe = listenToOwnedCards(shareCode, (cardsFromFirebase) => {
+            const now = Date.now();
+            if (now - lastLocalUpdate > 1000) {
+              setOwnedCards(cardsFromFirebase || {});
+              localStorage.setItem('binder_owned', JSON.stringify(cardsFromFirebase || {}));
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Firebase setup error:', error);
+      }
+    }
+    setupFirebaseSync();
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const suggestions =
@@ -109,14 +138,27 @@ function App() {
         };
       }
       localStorage.setItem('binder_owned', JSON.stringify(next));
+      setTimeout(() => syncToFirebase(next), 100);
       return next;
     });
+  }
+
+  async function syncToFirebase(cards) {
+    try {
+      const shareCode = await getShareCode();
+      if (shareCode) {
+        await saveOwnedCardsToFirebase(cards, shareCode);
+      }
+    } catch (error) {
+      console.error('Error syncing to Firebase:', error);
+    }
   }
 
   function toggleWishlist(cardId) {
     setOwnedCards((prev) => {
       const next = { ...prev, [cardId]: { ...prev[cardId], wishlist: !prev[cardId].wishlist } };
       localStorage.setItem('binder_owned', JSON.stringify(next));
+      setTimeout(() => syncToFirebase(next), 100);
       return next;
     });
   }
@@ -151,7 +193,7 @@ function App() {
             <p className="app-subtitle">Colección</p>
           </div>
         </div>
-        <NavBar currentView={currentView} onViewChange={setCurrentView} />
+        <NavBar currentView={currentView} onViewChange={setCurrentView} onShareClick={() => setShareModalOpen(true)} />
       </aside>
 
       <main className="app-main">
@@ -186,6 +228,15 @@ function App() {
       {selectedCard && (
         <CardModal card={selectedCard} onClose={() => setSelectedCard(null)} />
       )}
+
+      <ShareCodeModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        onLoadCards={(cards) => {
+          setOwnedCards(cards);
+          localStorage.setItem('binder_owned', JSON.stringify(cards));
+        }}
+      />
     </div>
   );
 }
