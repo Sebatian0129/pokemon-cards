@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { capitalize } from '../../utils';
-import PokemonSlot from './PokemonSlot';
 
 const SLOTS = 9;
 
@@ -450,6 +449,11 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
 
   const ownedCount = pokemon.filter((p) => ownedDataByPokemonId[p.id]).length;
 
+  // En portrait: navegación página por página. En landscape: spreads (dos páginas)
+  const totalSpreads = isPortrait
+    ? (pokemon.length === 0 ? 1 : 1 + Math.ceil(pokemon.length / SLOTS))
+    : (1 + Math.ceil(Math.max(0, pokemon.length - SLOTS) / (SLOTS * 2)));
+
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === 'ArrowLeft') {
@@ -463,11 +467,6 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [spread, animating, totalSpreads]);
-
-  // En portrait: navegación página por página. En landscape: spreads (dos páginas)
-  const totalSpreads = isPortrait
-    ? (pokemon.length === 0 ? 1 : 1 + Math.ceil(pokemon.length / SLOTS))
-    : (1 + Math.ceil(Math.max(0, pokemon.length - SLOTS) / (SLOTS * 2)));
 
   // Genera el contenido de la página izquierda para cualquier spread
   function getLeftContent(s) {
