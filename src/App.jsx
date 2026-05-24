@@ -84,14 +84,22 @@ function App() {
       : [];
 
   async function handleSearch(nameOverride) {
-    const name = (nameOverride ?? searchTerm).trim();
-    if (!name) return;
+    const nameToSearch = nameOverride ?? searchTerm;
+    const name = nameToSearch.trim();
+    if (!name) {
+      setError('Por favor ingresa un nombre');
+      return;
+    }
     setLoading(true);
     setError(null);
     setHasSearched(true);
     setSearchedName(name);
     try {
-      setCards(await fetchAllCards(name));
+      const results = await fetchAllCards(name);
+      setCards(results);
+      if (results.length === 0) {
+        setError(null);
+      }
     } catch (err) {
       setError(err.message);
       setCards([]);
@@ -102,7 +110,7 @@ function App() {
 
   function handleSuggestionSelect(name) {
     setSearchTerm(name);
-    handleSearch(name);
+    setTimeout(() => handleSearch(name), 0);
   }
 
   // Marca o desmarca una carta como poseída físicamente
