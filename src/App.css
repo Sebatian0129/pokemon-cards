@@ -1703,24 +1703,16 @@
 /* ── Portrait Mode (vertical): una sola página de 3x3 ── */
 @media (orientation: portrait) {
   .book-desk {
-    padding: 16px 8px;
-    min-height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 12px 8px;
+    margin-bottom: 12px;
   }
 
   .book-scene {
-    width: 100%;
     gap: 12px;
-    flex-wrap: wrap;
-    padding: 0 4px;
   }
 
   .book-wrapper {
-    width: min(90vw, 90vh) !important;
-    max-height: min(80vh, 600px);
-    flex-shrink: 0;
+    width: min(90vw, 500px) !important;
   }
 
   .book-page-right {
@@ -1746,11 +1738,11 @@
   }
 
   .book-arrow {
-    width: 48px;
-    height: 48px;
-    font-size: 1.8rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.6rem;
     flex-shrink: 0;
-    border: 2px solid #444;
+    border: 1.5px solid #444;
   }
 
   .book-arrow:hover:not(:disabled) {
