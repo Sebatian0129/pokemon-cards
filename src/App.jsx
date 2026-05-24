@@ -6,6 +6,7 @@ import CardGrid from './components/CardGrid';
 import CardModal from './components/CardModal';
 import BinderView from './components/binder/BinderView';
 import ShareCodeModal from './components/ShareCodeModal';
+import Toast from './components/Toast';
 import { getShareCode, saveOwnedCardsToFirebase, listenToOwnedCards } from './firebase';
 import './App.css';
 
@@ -13,6 +14,8 @@ function App() {
   const [currentView, setCurrentView] = useState('search');
   const [sidebarExpanded, setSidebarExpanded] = useState(() => window.innerWidth >= 768);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   // ── Search state ──
   const [searchTerm, setSearchTerm] = useState('');
@@ -128,6 +131,8 @@ function App() {
   function toggleCard(card, pokemon) {
     setOwnedCards((prev) => {
       const next = { ...prev };
+      const isAdding = !next[card.id];
+
       if (next[card.id]) {
         delete next[card.id];
       } else {
@@ -144,6 +149,10 @@ function App() {
           price: extractPrice(card),
           wishlist: false,
         };
+        if (isAdding) {
+          setToastMessage('✓ Carta agregada a tu colección');
+          setToastVisible(true);
+        }
       }
       localStorage.setItem('binder_owned', JSON.stringify(next));
       setTimeout(() => syncToFirebase(next), 100);
@@ -244,6 +253,12 @@ function App() {
           setOwnedCards(cards);
           localStorage.setItem('binder_owned', JSON.stringify(cards));
         }}
+      />
+
+      <Toast
+        message={toastMessage}
+        visible={toastVisible}
+        onClose={() => setToastVisible(false)}
       />
     </div>
   );

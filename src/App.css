@@ -1112,6 +1112,24 @@
   padding: 0 4px;
 }
 
+.book-slot-progress-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #cc2929;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border: 2px solid #1a1a1a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 /* Overlay slots sin carta: fondo oscuro centrado */
 .book-slot-hover-overlay {
   position: absolute;

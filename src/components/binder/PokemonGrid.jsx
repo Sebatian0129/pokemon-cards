@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { capitalize } from '../../utils';
+import PokemonSlot from './PokemonSlot';
 
 const SLOTS = 9;
 
