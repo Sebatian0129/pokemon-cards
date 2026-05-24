@@ -16,7 +16,13 @@ function SearchBar({ value, onChange, onSearch, loading, suggestions, onSuggesti
     onSuggestionSelect(name);
   }
 
+  function handleButtonClick() {
+    setShowSuggestions(false);
+    onSearch(value);
+  }
+
   const visibleSuggestions = showSuggestions ? suggestions : [];
+  const isManuallTyped = value.trim().length > 0;
 
   return (
     <div className="search-bar">
@@ -30,7 +36,6 @@ function SearchBar({ value, onChange, onSearch, loading, suggestions, onSuggesti
             setShowSuggestions(true);
           }}
           onFocus={() => setShowSuggestions(true)}
-          // El timeout permite que el click en una sugerencia se registre antes de cerrar
           onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
           onKeyDown={handleKeyDown}
           disabled={loading}
@@ -45,7 +50,7 @@ function SearchBar({ value, onChange, onSearch, loading, suggestions, onSuggesti
           </ul>
         )}
       </div>
-      <button onClick={onSearch} disabled={loading || !value.trim()}>
+      <button onClick={handleButtonClick} disabled={loading || !isManuallTyped}>
         {loading ? 'Buscando...' : 'Buscar'}
       </button>
     </div>
