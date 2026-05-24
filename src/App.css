@@ -785,6 +785,26 @@
   cursor: not-allowed;
 }
 
+@media (orientation: landscape) {
+  .book-desk {
+    padding: 16px 8px;
+  }
+
+  .book-scene {
+    gap: 8px;
+  }
+
+  .book-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 1.4rem;
+  }
+
+  .book-wrapper {
+    width: min(100%, calc((100vh - 120px) * 4 / 3 + 90px)) !important;
+  }
+}
+
 .book-wrapper {
   position: relative;
   flex: 0 0 auto;
