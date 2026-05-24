@@ -1704,7 +1704,7 @@
 @media (orientation: portrait) {
   .book-desk {
     padding: 16px 8px;
-    min-height: 70vh;
+    min-height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1713,11 +1713,14 @@
   .book-scene {
     width: 100%;
     gap: 12px;
+    flex-wrap: wrap;
+    padding: 0 4px;
   }
 
   .book-wrapper {
-    width: min(95vw, calc(100vh - 200px)) !important;
-    max-height: 60vh;
+    width: min(90vw, 90vh) !important;
+    max-height: min(80vh, 600px);
+    flex-shrink: 0;
   }
 
   .book-page-right {
