@@ -1682,6 +1682,23 @@
 
 /* ── Portrait Mode (vertical): una sola página de 3x3 ── */
 @media (orientation: portrait) {
+  .book-desk {
+    padding: 20px 8px;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .book-scene {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .book-wrapper {
+    width: 100% !important;
+    max-height: 75vh;
+  }
+
   .book-page-right {
     display: none;
   }
@@ -1690,8 +1707,14 @@
     display: none;
   }
 
+  .book-page {
+    padding: 12px;
+    border-radius: 8px !important;
+  }
+
   .book-page-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
   }
 
   .book-flip {
@@ -1699,8 +1722,16 @@
   }
 
   .book-arrow {
-    width: 36px;
-    height: 36px;
-    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    border: 2px solid #444;
+  }
+
+  .book-arrow:hover:not(:disabled) {
+    border-color: #ff6b35;
+    color: #ff6b35;
+    background: rgba(255, 107, 53, 0.1);
   }
 }
