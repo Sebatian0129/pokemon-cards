@@ -1653,10 +1653,6 @@
 
 /* ── Portrait Mode (vertical): una sola página de 3x3 ── */
 @media (orientation: portrait) {
-  .book-container {
-    flex-direction: column;
-  }
-
   .book-page-right {
     display: none;
   }
@@ -1667,5 +1663,15 @@
 
   .book-page-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .book-flip {
+    display: none;
+  }
+
+  .book-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
   }
 }

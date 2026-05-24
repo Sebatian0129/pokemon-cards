@@ -426,17 +426,26 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
   }
 
   const ownedCount = pokemon.filter((p) => ownedDataByPokemonId[p.id]).length;
-  const totalSpreads = 1 + Math.ceil(Math.max(0, pokemon.length - SLOTS) / (SLOTS * 2));
+
+  // En portrait: navegación página por página. En landscape: spreads (dos páginas)
+  const totalSpreads = isPortrait
+    ? (pokemon.length === 0 ? 1 : 1 + Math.ceil(pokemon.length / SLOTS))
+    : (1 + Math.ceil(Math.max(0, pokemon.length - SLOTS) / (SLOTS * 2)));
 
   // Genera el contenido de la página izquierda para cualquier spread
   function getLeftContent(s) {
     if (s === 0) return <BookCover gen={gen} />;
+    if (isPortrait) {
+      const start = (s - 1) * SLOTS;
+      return <BookPage slots={getPageSlots(pokemon, start)} ownedDataByPokemonId={ownedDataByPokemonId} genColor={gen.color} onSelectPokemon={onSelectPokemon} onImportImage={onImportImage} onRemoveCard={handleRemoveCard} onToggleWishlist={onToggleWishlist} onCardDetail={handleCardDetail} />;
+    }
     const start = SLOTS + (s - 1) * SLOTS * 2;
     return <BookPage slots={getPageSlots(pokemon, start)} ownedDataByPokemonId={ownedDataByPokemonId} genColor={gen.color} onSelectPokemon={onSelectPokemon} onImportImage={onImportImage} onRemoveCard={handleRemoveCard} onToggleWishlist={onToggleWishlist} onCardDetail={handleCardDetail} />;
   }
 
   // Genera el contenido de la página derecha para cualquier spread
   function getRightContent(s) {
+    if (isPortrait) return null;
     const start = s === 0 ? 0 : SLOTS + (s - 1) * SLOTS * 2 + SLOTS;
     return <BookPage slots={getPageSlots(pokemon, start)} ownedDataByPokemonId={ownedDataByPokemonId} genColor={gen.color} onSelectPokemon={onSelectPokemon} onImportImage={onImportImage} onRemoveCard={handleRemoveCard} onToggleWishlist={onToggleWishlist} onCardDetail={handleCardDetail} />;
   }
