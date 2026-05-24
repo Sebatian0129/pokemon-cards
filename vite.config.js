@@ -9,11 +9,9 @@ export default defineConfig({
     port: 5173,
   },
   build: {
-    rollupOptions: {
-      external: [],
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true,
     },
-  },
-  optimizeDeps: {
-    include: ['firebase/app', 'firebase/database'],
   },
 })
