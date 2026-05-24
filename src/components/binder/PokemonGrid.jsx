@@ -319,9 +319,15 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
     const cacheKey = `pkm_gen_${gen.id}`;
     const cached = sessionStorage.getItem(cacheKey);
     if (cached) {
-      setPokemon(JSON.parse(cached));
-      setLoading(false);
-      return;
+      try {
+        const parsedData = JSON.parse(cached);
+        setPokemon(Array.isArray(parsedData) ? parsedData : []);
+        setLoading(false);
+        return;
+      } catch (e) {
+        console.error('Error parsing cached pokemon data:', e);
+        sessionStorage.removeItem(cacheKey);
+      }
     }
 
     // Two parallel requests instead of N+2 sequential ones
@@ -437,10 +443,12 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
     if (s === 0) return <BookCover gen={gen} />;
     if (isPortrait) {
       const start = (s - 1) * SLOTS;
-      return <BookPage slots={getPageSlots(pokemon, start)} ownedDataByPokemonId={ownedDataByPokemonId} genColor={gen.color} onSelectPokemon={onSelectPokemon} onImportImage={onImportImage} onRemoveCard={handleRemoveCard} onToggleWishlist={onToggleWishlist} onCardDetail={handleCardDetail} />;
+      const slots = getPageSlots(pokemon, start);
+      return <BookPage key={`page-left-${s}`} slots={slots} ownedDataByPokemonId={ownedDataByPokemonId} genColor={gen.color} onSelectPokemon={onSelectPokemon} onImportImage={onImportImage} onRemoveCard={handleRemoveCard} onToggleWishlist={onToggleWishlist} onCardDetail={handleCardDetail} />;
     }
     const start = SLOTS + (s - 1) * SLOTS * 2;
-    return <BookPage slots={getPageSlots(pokemon, start)} ownedDataByPokemonId={ownedDataByPokemonId} genColor={gen.color} onSelectPokemon={onSelectPokemon} onImportImage={onImportImage} onRemoveCard={handleRemoveCard} onToggleWishlist={onToggleWishlist} onCardDetail={handleCardDetail} />;
+    const slots = getPageSlots(pokemon, start);
+    return <BookPage key={`page-left-${s}`} slots={slots} ownedDataByPokemonId={ownedDataByPokemonId} genColor={gen.color} onSelectPokemon={onSelectPokemon} onImportImage={onImportImage} onRemoveCard={handleRemoveCard} onToggleWishlist={onToggleWishlist} onCardDetail={handleCardDetail} />;
   }
 
   // Genera el contenido de la página derecha para cualquier spread
