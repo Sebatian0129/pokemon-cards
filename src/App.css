@@ -1651,16 +1651,21 @@
   }
 }
 
-/* ── Portrait Mode (vertical): una columna ── */
+/* ── Portrait Mode (vertical): una sola página de 3x3 ── */
 @media (orientation: portrait) {
-  .book-page-grid {
-    grid-template-columns: repeat(1, 1fr);
+  .book-container {
+    flex-direction: column;
   }
-}
 
-/* ── Landscape Mode (horizontal): formato libro ── */
-@media (orientation: landscape) {
+  .book-page-right {
+    display: none;
+  }
+
+  .book-spine {
+    display: none;
+  }
+
   .book-page-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
