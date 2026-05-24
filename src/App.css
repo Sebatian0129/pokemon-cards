@@ -1703,10 +1703,11 @@
 /* ── Portrait Mode (vertical): una sola página de 3x3 ── */
 @media (orientation: portrait) {
   .book-desk {
-    padding: 20px 8px;
-    min-height: 85vh;
+    padding: 16px 8px;
+    min-height: 70vh;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   .book-scene {
@@ -1715,8 +1716,8 @@
   }
 
   .book-wrapper {
-    width: 100% !important;
-    max-height: 75vh;
+    width: min(95vw, calc(100vh - 200px)) !important;
+    max-height: 60vh;
   }
 
   .book-page-right {
