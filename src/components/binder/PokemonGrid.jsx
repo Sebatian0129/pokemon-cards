@@ -450,6 +450,20 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
 
   const ownedCount = pokemon.filter((p) => ownedDataByPokemonId[p.id]).length;
 
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (spread > 0 && !animating) navigate(spread - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (spread < totalSpreads - 1 && !animating) navigate(spread + 1);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [spread, animating, totalSpreads]);
+
   // En portrait: navegación página por página. En landscape: spreads (dos páginas)
   const totalSpreads = isPortrait
     ? (pokemon.length === 0 ? 1 : 1 + Math.ceil(pokemon.length / SLOTS))
@@ -529,7 +543,12 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
                 onClick={() => navigate(spread - 1)}
                 disabled={spread === 0 || animating}
                 aria-label="Página anterior"
-              >‹</button>
+                title="Página anterior"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
 
               <div className="book-wrapper">
                 <div className={`book-container${animating ? ' book-animating' : ''}`}>
@@ -591,7 +610,15 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
                 onClick={() => navigate(spread + 1)}
                 disabled={spread >= totalSpreads - 1 || animating}
                 aria-label="Página siguiente"
-              >›</button>
+                title="Página siguiente"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+            <div className="book-page-indicator">
+              Página {spread + 1} de {totalSpreads}
             </div>
           </div>
 
