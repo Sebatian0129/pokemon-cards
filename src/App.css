@@ -1651,8 +1651,15 @@
   }
 }
 
-/* ── Portrait Mode ── */
+/* ── Portrait Mode (vertical): una columna ── */
 @media (orientation: portrait) {
+  .book-page-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* ── Landscape Mode (horizontal): formato libro ── */
+@media (orientation: landscape) {
   .book-page-grid {
     grid-template-columns: repeat(2, 1fr);
   }
