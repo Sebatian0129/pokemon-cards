@@ -308,10 +308,26 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(orientation: portrait)');
-    const handleOrientationChange = (e) => setIsPortrait(e.matches);
+    const handleOrientationChange = (e) => {
+      setIsPortrait(e.matches);
+      // Sincronizar spread cuando cambia la orientación
+      if (e.matches) {
+        // Cambiar a portrait: convert landscape spread to portrait spread
+        const newSpread = spread === 0 ? 0 : 1 + (spread * 2);
+        if (newSpread !== spread) {
+          onSpreadChange(newSpread);
+        }
+      } else {
+        // Cambiar a landscape: convert portrait spread to landscape spread
+        const newSpread = spread === 0 ? 0 : Math.floor((spread - 1) / 2);
+        if (newSpread !== spread) {
+          onSpreadChange(newSpread);
+        }
+      }
+    };
     mediaQuery.addEventListener('change', handleOrientationChange);
     return () => mediaQuery.removeEventListener('change', handleOrientationChange);
-  }, []);
+  }, [spread, onSpreadChange]);
 
   useEffect(() => {
     setLoading(true);
