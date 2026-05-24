@@ -34,10 +34,10 @@ function PokemonCardList({ pokemon, ownedCards, onToggleCard, onClose, onCardDet
           <div className="card-list-modal-title">
             <img src={pokemon.sprite} alt={pokemon.name} className="header-sprite" />
             <div>
-              <h2>{pokemon.name}</h2>
+              <h2>Cartas disponibles: {pokemon.name}</h2>
               {!loading && (
                 <p className="binder-progress-text">
-                  {ownedCount} / {cards.length} cartas registradas
+                  {cards.length} cartas • {ownedCount} en tu colección
                 </p>
               )}
             </div>
