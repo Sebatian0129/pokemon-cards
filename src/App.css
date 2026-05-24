@@ -366,6 +366,9 @@
 .pokemon-card img {
   width: 100%;
   display: block;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: #1a1a1a;
 }
 
 .card-no-image {
