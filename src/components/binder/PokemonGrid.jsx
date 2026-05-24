@@ -455,7 +455,12 @@ function PokemonGrid({ gen, ownedCards, onSelectPokemon, onImportImage, onToggle
     setFromSpread(spread);
     toSpreadRef.current = target;
     setAnimDir(target > spread ? 'fwd' : 'back');
-    setAnimating(true);
+
+    if (isPortrait) {
+      onSpreadChange(target);
+    } else {
+      setAnimating(true);
+    }
   }
 
   function handleAnimationEnd(e) {
